@@ -1,0 +1,15 @@
+services:
+  redis:
+    image: redis:7-alpine
+
+  app:
+    build: .
+    working_dir: /app
+    volumes:
+      - .:/app
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_CLIENT: phpredis
+    depends_on:
+      - redis
