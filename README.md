@@ -117,7 +117,7 @@ That marker is a protected property on `Illuminate\Queue\Jobs\Job`, which every 
 
 ## Requirements
 
-PHP 8.1+, Laravel 10–13. Works with any queue driver, and with Laravel Horizon.
+PHP 8.4+, Laravel 10–13. Works with any queue driver, and with Laravel Horizon.
 
 ## Testing
 
