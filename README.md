@@ -119,6 +119,10 @@ That marker is a protected property on `Illuminate\Queue\Jobs\Job`, which every 
 
 PHP 8.4+, Laravel 10–13. Works with any queue driver, and with Laravel Horizon.
 
+## Background
+
+[Laravel ShouldBeUnique: What Breaks Under Real Traffic](https://boring-observability.dev/blog/laravel-job-uniqueness-controls#gotcha-3-batch-dispatch-bypasses-unique-locks) explains the lock bypass this middleware works around, and [Laravel Job Retries and Backoff with ShouldBeUnique and WithoutOverlapping](https://boring-observability.dev/blog/laravel-job-retries-backoff-unique-locks) shows how the lock behaves across retries.
+
 ## Testing
 
 ```bash
