@@ -1,4 +1,4 @@
-FROM php:8.3-cli
+FROM php:8.4-cli
 
 RUN apt-get update -qq \
     && apt-get install -y -qq --no-install-recommends git unzip libzip-dev \
