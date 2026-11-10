@@ -80,10 +80,6 @@ class LockRecordTest extends TestCase
 
     public function test_a_scheduled_job_records_the_owner_of_the_lock_it_took()
     {
-        if (! method_exists(Schedule::class, 'dispatchUniqueJobToQueue')) {
-            $this->markTestSkipped('The scheduler does not lock unique jobs on this Laravel version.');
-        }
-
         $this->app->make(Schedule::class)->job(new UniqueJob)->run($this->app);
 
         $record = $this->queuedPayload()[LockRecord::PAYLOAD_KEY];

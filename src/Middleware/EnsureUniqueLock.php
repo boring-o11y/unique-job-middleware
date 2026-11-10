@@ -23,10 +23,6 @@ use Throwable;
  * uuid when it records none, so a later attempt of the same job still counts
  * as the holder. It is skipped when another owner holds the lock.
  *
- * Before Laravel 11 moved it, the framework released a lock unique until
- * processing before middleware runs, so on those versions such a job always
- * finds its lock free and runs.
- *
  * A job with no record in its payload (queued before the package was
  * installed) always runs, as does one whose lock cannot be read: a job is only
  * skipped on proof.
@@ -79,8 +75,8 @@ class EnsureUniqueLock
      * Determine whether the job holds its lock, taking it if it is free.
      *
      * A lock unique until processing is released as the job starts, so a free
-     * one is not taken: on versions that release it before middleware runs,
-     * nothing would release it again.
+     * one is not taken: the framework would release it again straight away,
+     * and could leave it held if a later middleware stopped the job.
      *
      * @param  object  $command
      * @param  string  $key

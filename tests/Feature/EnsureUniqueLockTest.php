@@ -8,12 +8,10 @@ use BoringO11y\UniqueJobMiddleware\Tests\Fixtures\PlainJob;
 use BoringO11y\UniqueJobMiddleware\Tests\Fixtures\UniqueJob;
 use BoringO11y\UniqueJobMiddleware\Tests\Fixtures\UniqueUntilProcessingJob;
 use BoringO11y\UniqueJobMiddleware\Tests\TestCase;
-use Illuminate\Queue\CallQueuedHandler;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Redis;
-use ReflectionMethod;
 
 class EnsureUniqueLockTest extends TestCase
 {
@@ -121,10 +119,6 @@ class EnsureUniqueLockTest extends TestCase
 
     public function test_a_skipped_job_unique_until_processing_leaves_the_other_lock_alone()
     {
-        if (! $this->frameworkReleasesUntilProcessingLocksInsideMiddleware()) {
-            $this->markTestSkipped('This Laravel version releases the lock before middleware runs.');
-        }
-
         $this->holdLock(new UniqueUntilProcessingJob);
 
         Queue::push(new UniqueUntilProcessingJob);
@@ -197,17 +191,5 @@ class EnsureUniqueLockTest extends TestCase
 
         $this->assertSame(1, UniqueJob::$handled);
         $this->assertNull($this->lockOwner(new UniqueJob));
-    }
-
-    /**
-     * Determine whether the framework releases a lock unique until processing
-     * after the job's middleware has run, rather than before it.
-     */
-    protected function frameworkReleasesUntilProcessingLocksInsideMiddleware(): bool
-    {
-        $method = new ReflectionMethod(CallQueuedHandler::class, 'dispatchThroughMiddleware');
-        $lines = array_slice(file($method->getFileName()), $method->getStartLine() - 1, $method->getEndLine() - $method->getStartLine() + 1);
-
-        return str_contains(implode('', $lines), 'UniqueUntilProcessing');
     }
 }

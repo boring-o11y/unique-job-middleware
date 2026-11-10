@@ -11,7 +11,6 @@ use Illuminate\Contracts\Queue\ShouldBeUniqueUntilProcessing;
 use Illuminate\Events\CallQueuedListener;
 use Illuminate\Events\Dispatcher as EventDispatcher;
 use Illuminate\Foundation\Bus\PendingDispatch;
-use ReflectionMethod;
 use Throwable;
 
 /**
@@ -55,9 +54,7 @@ class LockRecord
         }
 
         try {
-            if (is_null($key = static::key($job))) {
-                return [];
-            }
+            $key = static::key($job);
 
             $owner = static::pushedByAcquiringDispatch($job)
                 ? static::currentOwner(static::cache($job), $key)
@@ -89,8 +86,8 @@ class LockRecord
     /**
      * Determine if the command is unique.
      *
-     * Queued listeners gained unique support later, so the method a
-     * CallQueuedListener carries may be missing.
+     * Queued listeners can only be unique from Laravel 12.50, so on earlier
+     * versions a CallQueuedListener carries no such method.
      *
      * @param  mixed  $command
      * @return bool
@@ -120,26 +117,15 @@ class LockRecord
     /**
      * Get the command's unique lock key, as the installed framework builds it.
      *
-     * UniqueLock::getKey() is a public static method only on recent versions,
-     * and its format has changed, so it is called rather than reproduced.
+     * The key's format changes between versions, so UniqueLock::getKey() is
+     * called rather than reproduced.
      *
      * @param  object  $command
-     * @return string|null
+     * @return string
      */
     public static function key($command)
     {
-        try {
-            $method = new ReflectionMethod(UniqueLock::class, 'getKey');
-            $method->setAccessible(true);
-
-            $key = $method->invoke($method->isStatic()
-                ? null
-                : new UniqueLock(Container::getInstance()->make(Cache::class)), $command);
-        } catch (Throwable $e) {
-            return null;
-        }
-
-        return is_string($key) ? $key : null;
+        return UniqueLock::getKey($command);
     }
 
     /**
