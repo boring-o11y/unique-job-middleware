@@ -2,6 +2,7 @@
     "name": "boring-o11y/unique-job-middleware",
     "description": "A queue job middleware that checks a ShouldBeUnique job's lock again when it runs, and skips the copies queued past it.",
     "keywords": ["laravel", "queue", "unique", "ShouldBeUnique", "middleware", "horizon"],
+    "homepage": "https://boring-observability.dev/open-source/unique-job-middleware",
     "license": "MIT",
     "support": {
         "issues": "https://github.com/boring-o11y/unique-job-middleware/issues",
