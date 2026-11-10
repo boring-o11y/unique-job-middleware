@@ -10,15 +10,15 @@
     },
     "require": {
         "php": "^8.4",
-        "illuminate/bus": "^10.0|^11.0|^12.0|^13.0",
-        "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
-        "illuminate/contracts": "^10.0|^11.0|^12.0|^13.0",
-        "illuminate/queue": "^10.0|^11.0|^12.0|^13.0",
-        "illuminate/support": "^10.0|^11.0|^12.0|^13.0"
+        "illuminate/bus": "^12.0|^13.0",
+        "illuminate/cache": "^12.0|^13.0",
+        "illuminate/contracts": "^12.0|^13.0",
+        "illuminate/queue": "^12.0|^13.0",
+        "illuminate/support": "^12.0|^13.0"
     },
     "require-dev": {
         "laravel/horizon": "^5.24",
-        "orchestra/testbench": "^8.14|^9.0|^10.0|^11.0",
+        "orchestra/testbench": "^10.0|^11.0",
         "phpunit/phpunit": "^10.5|^11.0|^12.0",
         "predis/predis": "^2.0|^3.0"
     },

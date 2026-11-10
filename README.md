@@ -68,8 +68,6 @@ When a job takes a free lock, it takes it under the owner its payload records, o
 
 These jobs release their lock as they start, so the middleware never takes a free lock for them. It only skips a copy while another job still holds the lock.
 
-On Laravel 10 and early 11.x, the framework releases that lock *before* middleware runs. An until-processing job therefore always finds its lock free there and runs. Plain `ShouldBeUnique` jobs are protected on every supported version.
-
 ## Seeing skipped jobs
 
 A skip is silent unless you listen for it. In Horizon, a skipped job shows as completed.
@@ -117,7 +115,7 @@ That marker is a protected property on `Illuminate\Queue\Jobs\Job`, which every 
 
 ## Requirements
 
-PHP 8.4+, Laravel 10–13. Works with any queue driver, and with Laravel Horizon.
+PHP 8.4+, Laravel 12–13. Works with any queue driver, and with Laravel Horizon.
 
 ## Background
 
